@@ -37,8 +37,7 @@
   uint8_t data[] = {__VA_ARGS__};                                              \
   Adafruit_Fingerprint_Packet packet(FINGERPRINT_COMMANDPACKET, sizeof(data),  \
                                      data);                                    \
-  writeStructuredPacket(packet);    
-  getStructuredPacket(&packet);                            \
+  writeStructuredPacket(packet);                                               \
   if (getStructuredPacket(&packet) != FINGERPRINT_OK)                          \
     return FINGERPRINT_PACKETRECIEVEERR;                                       \
   if (packet.type != FINGERPRINT_ACKPACKET)                                    \
