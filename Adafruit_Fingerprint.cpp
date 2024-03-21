@@ -37,7 +37,8 @@
   uint8_t data[] = {__VA_ARGS__};                                              \
   Adafruit_Fingerprint_Packet packet(FINGERPRINT_COMMANDPACKET, sizeof(data),  \
                                      data);                                    \
-  writeStructuredPacket(packet);                                               \
+  writeStructuredPacket(packet);    
+  getStructuredPacket(&packet);                            \
   if (getStructuredPacket(&packet) != FINGERPRINT_OK)                          \
     return FINGERPRINT_PACKETRECIEVEERR;                                       \
   if (packet.type != FINGERPRINT_ACKPACKET)                                    \
@@ -624,9 +625,18 @@ Adafruit_Fingerprint::getStructuredPacket(Adafruit_Fingerprint_Packet *packet,
 // extensions
 
 Adafruit_Fingerprint_Packet Adafruit_Fingerprint::DownloadChar(uint8_t buffer){
-    GET_CMD_PACKET(FINGERPRINT_GETIMAGE,(uint8_t)0x09, (uint8_t)CHARBUFFER_1);
+    uint8_t data[] = {FINGERPRINT_GETIMAGE, (uint8_t)0x09, buffer} ;
+    Adafruit_Fingerprint_Packet packet(FINGERPRINT_COMMANDPACKET, sizeof(data), data);
+
+    writeStructuredPacket(packet);
+    uint8_t response = getStructuredPacket(&packet);
+    if (response !=FINGERPRINT_OK){
+      Adafruit_Fingerprint_Packet errpacket(FINGERPRINT_PACKETRECIEVEERR, 0, nullptr);
+      return errpacket;
+    }
+    // GET_CMD_PACKET(FINGERPRINT_GETIMAGE,(uint8_t)0x09, (uint8_t)CHARBUFFER_1);
     uint8_t loda = 2;
-    Adafruit_Fingerprint_Packet p2(FINGERPRINT_DATAPACKET, 2, &loda);
-    getStructuredPacket(&p2);
-    return p2;
+    Adafruit_Fingerprint_Packet packet_2(FINGERPRINT_DATAPACKET, 2, &loda);
+    getStructuredPacket(&packet_2);
+    return packet_2;
 }
