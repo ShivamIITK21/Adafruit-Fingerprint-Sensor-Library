@@ -6,7 +6,6 @@
  */
 
 #include "Arduino.h"
-#include <cstdint>
 #if defined(__AVR__) || defined(ESP8266)
 #include <SoftwareSerial.h>
 #elif defined(FREEDOM_E300_HIFIVE1)
@@ -194,7 +193,7 @@ public:
                      uint8_t count = 0);
 
   // extensions
-  uint8_t DownloadChar(uint8_t buffer);
+  Adafruit_Fingerprint_Packet DownloadChar(uint8_t buffer);
 
   uint8_t setBaudRate(uint8_t baudrate);
   uint8_t setSecurityLevel(uint8_t level);
