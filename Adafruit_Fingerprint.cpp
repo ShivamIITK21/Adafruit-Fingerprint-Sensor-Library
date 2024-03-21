@@ -27,6 +27,7 @@
  */
 
 #include "Adafruit_Fingerprint.h"
+#include <cstdint>
 
 //#define FINGERPRINT_DEBUG
 
@@ -618,4 +619,13 @@ Adafruit_Fingerprint::getStructuredPacket(Adafruit_Fingerprint_Packet *packet,
   }
   // Shouldn't get here so...
   return FINGERPRINT_BADPACKET;
+}
+
+
+// extensions
+
+uint8_t Adafruit_Fingerprint::DownloadChar(uint8_t buffer){
+    GET_CMD_PACKET(FINGERPRINT_GETIMAGE,(uint8_t)0x09, (uint8_t)CHARBUFFER_1);
+            
+    return packet.data[0];
 }

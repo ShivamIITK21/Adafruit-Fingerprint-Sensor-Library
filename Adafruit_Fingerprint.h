@@ -6,6 +6,7 @@
  */
 
 #include "Arduino.h"
+#include <cstdint>
 #if defined(__AVR__) || defined(ESP8266)
 #include <SoftwareSerial.h>
 #elif defined(FREEDOM_E300_HIFIVE1)
@@ -121,6 +122,9 @@
 #define FINGERPRINT_PACKET_SIZE_128 0X2 //!< Packet size is 128 Byte
 #define FINGERPRINT_PACKET_SIZE_256 0X3 //!< Packet size is 256 Byte
 
+#define CHARBUFFER_1 0x01
+#define CHARBUFFER_2 0x02
+
 //#define FINGERPRINT_DEBUG
 
 #define DEFAULTTIMEOUT 1000 //!< UART reading timeout in milliseconds
@@ -188,6 +192,9 @@ public:
   uint8_t LEDcontrol(bool on);
   uint8_t LEDcontrol(uint8_t control, uint8_t speed, uint8_t coloridx,
                      uint8_t count = 0);
+
+  // extensions
+  uint8_t DownloadChar(uint8_t buffer);
 
   uint8_t setBaudRate(uint8_t baudrate);
   uint8_t setSecurityLevel(uint8_t level);
